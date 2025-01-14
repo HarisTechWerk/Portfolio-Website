@@ -1,0 +1,14 @@
+﻿@model PortfolioWebsite.Models.BlogPost
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<h1>@Model.Title</h1>
+<p><small>Published on @Model.PublishedAt?.ToString("MMMM dd, yyyy")</small></p>
+<p>@Html.Raw(Model.Content)</p>
+
+@if (Model.Category != null)
+{
+    <p><strong>Category:</strong> @Model.Category.Name</p>
+}

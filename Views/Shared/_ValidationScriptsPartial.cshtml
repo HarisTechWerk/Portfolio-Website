@@ -1,2 +1,16 @@
-﻿<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-<script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+﻿<environment include="Development">
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+</environment>
+<environment exclude="Development">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+            integrity="sha512-894yePh2zZj5zpU6aG+RkZrPlp2R5vAbF2W1Zm5QfXta4P5KQm7S24QzL8e3x9je10gG/58c5DKoVYx3IDT6EA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"
+            integrity="sha512-5+7R4lDF6C8NsIZxQ3VkdjdPkp0H15hzRmu9R/HlcbvPRq0aX4nRvvT1Q2Q1UBmPOqkE/zFw8V/gZKKLLcg1Pg=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"
+            integrity="sha512-3z8D/Y6CAwVqUIcLjvKMVtWvMXcDUnATws2XjD+bjz5CwFktLO+5wPg8D1CMnl3O4UY2jOKY1mXjZEiKwJxK3A=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</environment>

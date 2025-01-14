@@ -1,0 +1,16 @@
+﻿@model PortfolioWebsite.Models.Project
+
+@{
+    ViewData["Title"] = "Project Details";
+}
+
+<h1>@Model.Title</h1>
+
+<img src="@Model.ImageUrl" class="img-fluid" alt="@Model.Title">
+
+<p>@Model.Description</p>
+
+<p><strong>Technologies Used:</strong> @Model.Technologies</p>
+
+<a href="@Model.ProjectUrl" class="btn btn-primary" target="_blank">Live Demo</a>
+<a href="@Model.RepositoryUrl" class="btn btn-secondary" target="_blank">GitHub Repo</a>

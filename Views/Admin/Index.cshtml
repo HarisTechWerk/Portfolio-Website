@@ -1,0 +1,11 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<h1>Admin Dashboard</h1>
+<p>Welcome to the admin panel. Use the navigation to manage projects and blog posts.</p>
+
+<ul>
+    <li><a href="@Url.Action("Index", "Projects", new { area = "Admin" })">Manage Projects</a></li>
+    <li><a href="@Url.Action("Index", "Blog", new { area = "Admin" })">Manage Blog Posts</a></li>
+</ul>

@@ -1,0 +1,17 @@
+﻿@model IEnumerable<PortfolioWebsite.Models.BlogPost>
+
+@{
+    ViewData["Title"] = "Blog";
+}
+
+<h1>My Blog</h1>
+
+@foreach (var post in Model)
+{
+    <div class="mb-4">
+        <h2>@post.Title</h2>
+        <p><small>Published on @post.PublishedAt?.ToString("MMMM dd, yyyy")</small></p>
+        <p>@post.Summary</p>
+        <a href="@Url.Action("Details", "Blog", new { slug = post.Slug })" class="btn btn-primary">Read More</a>
+    </div>
+}

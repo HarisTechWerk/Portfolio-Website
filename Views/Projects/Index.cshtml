@@ -1,0 +1,24 @@
+﻿@model IEnumerable<PortfolioWebsite.Models.Project>
+
+@{
+    ViewData["Title"] = "Projects";
+}
+
+<h1>My Projects</h1>
+
+<div class="row">
+    @foreach (var project in Model)
+    {
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <img src="@project.ImageUrl" class="card-img-top" alt="@project.Title">
+                <div class="card-body">
+                    <h5 class="card-title">@project.Title</h5>
+                    <p class="card-text">@project.Description</p>
+                    <a href="@project.ProjectUrl" class="btn btn-primary" target="_blank">Live Demo</a>
+                    <a href="@project.RepositoryUrl" class="btn btn-secondary" target="_blank">GitHub Repo</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

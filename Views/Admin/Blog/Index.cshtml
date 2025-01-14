@@ -1,0 +1,35 @@
+﻿@model IEnumerable<PortfolioWebsite.Models.BlogPost>
+
+@{
+    ViewData["Title"] = "Manage Blog Posts";
+}
+
+<h1>Manage Blog Posts</h1>
+
+<a href="@Url.Action("Create", "Blog", new { area = "Admin" })" class="btn btn-primary mb-3">Add New Blog Post</a>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Published</th>
+            <th>Published At</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var post in Model)
+        {
+            <tr>
+                <td>@post.Title</td>
+                <td>@(post.Published ? "Yes" : "No")</td>
+                <td>@post.PublishedAt?.ToString("MMMM dd, yyyy")</td>
+                <td>
+                    <a href="@Url.Action("Edit", "Blog", new { id = post.Id, area = "Admin" })" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="@Url.Action("Details", "Blog", new { id = post.Id, area = "Admin" })" class="btn btn-sm btn-info">Details</a>
+                    <a href="@Url.Action("Delete", "Blog", new { id = post.Id, area = "Admin" })" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
