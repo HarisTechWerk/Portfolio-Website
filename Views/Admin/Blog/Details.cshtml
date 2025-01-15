@@ -1,5 +1,50 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model PortfolioWebsite.Models.BlogPost
+
 @{
+    ViewData["Title"] = "Blog Post Details";
 }
+
+<h1>Blog Post Details</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <dl class="row">
+            <dt class="col-sm-2">
+                Title
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Title
+            </dd>
+            <dt class="col-sm-2">
+                Content
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Content
+            </dd>
+            <dt class="col-sm-2">
+                Published
+            </dt>
+            <dd class="col-sm-10">
+                @(Model.Published ? "Yes" : "No")
+            </dd>
+            <dt class="col-sm-2">
+                Published At
+            </dt>
+            <dd class="col-sm-10">
+                @Model.PublishedAt?.ToString("MMMM dd, yyyy")
+            </dd>
+            <dt class="col-sm-2">
+                Category
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Category?.Name
+            </dd>
+        </dl>
+
+        <div class="form-group">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+</div>
+

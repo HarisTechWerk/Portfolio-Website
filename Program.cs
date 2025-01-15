@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PortfolioWebsite.Data;
 using PortfolioWebsite.Models;
@@ -12,33 +12,52 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<PortfolioContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Configure Authentication
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.LoginPath = "/Account/Login";
-        options.AccessDeniedPath = "/Account/AccessDenied";
-    });
+// Configure Identity
+builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = false;
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = true;
+    options.Password.RequiredLength = 8; // Minimum password length
+    options.Password.RequiredUniqueChars = 1;
+})
+.AddEntityFrameworkStores<PortfolioContext>();
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+    options.LoginPath = "/Identity/Account/Login";
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+    options.SlidingExpiration = true;
+});
+
 
 var app = builder.Build();
 
-// Seed the database with an admin user if none exists
+// Seed the database with an admin user
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<PortfolioContext>();
     context.Database.Migrate();
 
-    if (!context.Users.Any())
+    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+
+    // Check if the admin user exists
+    var adminUser = await userManager.FindByNameAsync("admin");
+    if (adminUser == null)
     {
-        var adminUser = new User
+        adminUser = new ApplicationUser
         {
-            Username = "admin",
+            UserName = "admin",
             Email = "admin@example.com",
-            PasswordHash = "password" // Replace with hashed password in production
+            EmailConfirmed = true
         };
-        context.Users.Add(adminUser);
-        context.SaveChanges();
+        await userManager.CreateAsync(adminUser, "Password123!");
+        // Optionally, assign roles here
     }
 }
 
@@ -56,6 +75,8 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.MapRazorPages(); // Add this line after `app.UseAuthorization();`
+
 
 // Define the default route with area support
 app.MapControllerRoute(

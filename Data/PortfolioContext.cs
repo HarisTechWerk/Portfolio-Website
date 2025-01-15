@@ -1,13 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using PortfolioWebsite.Models;
 
 namespace PortfolioWebsite.Data
 {
-    public class PortfolioContext : DbContext
+    public class PortfolioContext : IdentityDbContext<ApplicationUser>
     {
         public PortfolioContext(DbContextOptions<PortfolioContext> options) : base(options) { }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<LegacyUser> LegacyUsers { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<BlogPost> BlogPosts { get; set; }
         public DbSet<Category> Categories { get; set; } // Optional
@@ -19,11 +20,11 @@ namespace PortfolioWebsite.Data
             base.OnModelCreating(modelBuilder);
 
             // Configure unique constraints
-            modelBuilder.Entity<User>()
+            modelBuilder.Entity<LegacyUser>()
                 .HasIndex(u => u.Username)
                 .IsUnique();
 
-            modelBuilder.Entity<User>()
+            modelBuilder.Entity<LegacyUser>()
                 .HasIndex(u => u.Email)
                 .IsUnique();
 
@@ -55,3 +56,5 @@ namespace PortfolioWebsite.Data
         }
     }
 }
+
+

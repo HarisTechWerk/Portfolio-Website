@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PortfolioWebsite.Models
 {
-    public class User
+    public class LegacyUser
     {
         public int Id { get; set; }
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using PortfolioWebsite.Data;
 using PortfolioWebsite.Models;
 using System.Security.Claims;
@@ -13,10 +14,12 @@ namespace PortfolioWebsite.Controllers
     public class AccountController : Controller
     {
         private readonly PortfolioContext _context;
+        private readonly IPasswordHasher<ApplicationUser> _passwordHasher;
 
-        public AccountController(PortfolioContext context)
+        public AccountController(PortfolioContext context, IPasswordHasher<ApplicationUser> passwordHasher)
         {
             _context = context;
+            _passwordHasher = passwordHasher;
         }
 
         [HttpGet]
@@ -32,14 +35,14 @@ namespace PortfolioWebsite.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _context.Users
-                    .FirstOrDefaultAsync(u => u.Username == model.Username);
+                    .FirstOrDefaultAsync(u => u.UserName == model.Username);
 
                 if (user != null && VerifyPassword(model.Password, user.PasswordHash))
                 {
                     var claims = new List<Claim>
                     {
-                        new Claim(ClaimTypes.Name, user.Username),
-                        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+                        new Claim(ClaimTypes.Name, user.UserName),
+                        new Claim(ClaimTypes.NameIdentifier, user.Id)
                     };
 
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -78,9 +81,8 @@ namespace PortfolioWebsite.Controllers
 
         private bool VerifyPassword(string password, string storedHash)
         {
-            // Implement password verification logic (e.g., hashing)
-            // For simplicity, we'll assume plain text (Not recommended for production)
-            return password == storedHash;
+            var result = _passwordHasher.VerifyHashedPassword(null, storedHash, password);
+            return result == PasswordVerificationResult.Success;
         }
     }
 }

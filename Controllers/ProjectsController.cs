@@ -3,11 +3,9 @@ using PortfolioWebsite.Data;
 using PortfolioWebsite.Models;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
 
 namespace PortfolioWebsite.Controllers
 {
-    [Authorize]
     public class ProjectsController : Controller
     {
         private readonly PortfolioContext _context;

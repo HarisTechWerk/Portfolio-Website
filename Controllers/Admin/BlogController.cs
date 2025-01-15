@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace PortfolioWebsite.Controllers.Admin
 {
-    [Authorize]
+    [Area("Admin")]
     public class BlogController : Controller
     {
         private readonly PortfolioContext _context;
